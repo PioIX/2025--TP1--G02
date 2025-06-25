@@ -49,3 +49,11 @@ function getAcertado() {
 function getFecha() {
     return document.getElementById("ingresoFecha").value
 }
+
+function getIdImagen() {
+    return document.getElementById("ingresoImagen").value
+}
+
+function getImgJugador() {
+    return document.getElementById("ingresoImgJugador").value
+}

@@ -170,3 +170,46 @@ async function tablapartidas() {
     let partidas = await response.json()
     console.log("Partidas:", partidas);
 }
+
+//---------------------------------------------------------------------------------------------------//
+
+async function imagenes(datosI){
+    try {
+        response = await fetch(`http://localhost:4000/Imagenes`,{
+            method:"POST", //GET, POST, PUT o DELETE
+            headers: {
+                "Content-Type": "application/json",
+              },
+            body: JSON.stringify(datosI) //JSON.stringify me convierte de objeto a JSON
+        })
+        //El response me imprime el JSON no tiene utilidad real
+        console.log(response)
+        //Desarmo el JSON y pasa a ser un objeto
+        let result = await response.json()
+        console.log(result)
+    } catch (error) {
+        alert("No se pudo seleccionar la imagen")
+        console.log(error)
+    }
+}
+
+function crearImagenes() {
+    let datosI={
+        id_jugador: getIdJugador(),
+        id_imagen: getIdImagen(),
+        imgJugador: getImgJugador(),
+    }
+    partidas(datosI)
+}
+
+async function tablaimagenes() {
+    let response = await fetch('http://localhost:4000/Imagenes', {
+        method: "GET", //GET, POST, PUT o DELETE
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    //Desarmo el JSON y pasa a ser un objeto
+    let imagenes = await response.json()
+    console.log("Imagenes:", imagenes);
+}
