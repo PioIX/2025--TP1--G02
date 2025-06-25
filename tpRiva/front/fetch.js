@@ -171,7 +171,7 @@ async function tablapartidas() {
     console.log("Partidas:", partidas);
 }
 
-//---------------------------------------------------------------------------------------------------//
+
 
 async function imagenes(datosI){
     try {
