@@ -57,3 +57,23 @@ function getIdImagen() {
 function getImgJugador() {
     return document.getElementById("ingresoImgJugador").value
 }
+
+function handleLogin() {
+    if (login()) {
+      window.location.href = "../dificultades.html";
+    }
+  }
+  
+  function handleRegister() {
+    Register();
+  }
+
+function moverARegistro() {
+    document.getElementById("login-form").style.display = "none";
+    document.getElementById("registro-form").style.display = "block";
+  }
+  
+  function moverALogin() {
+    document.getElementById("registro-form").style.display = "none";
+    document.getElementById("login-form").style.display = "block";
+    }
