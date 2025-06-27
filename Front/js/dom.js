@@ -54,26 +54,14 @@ function getIdImagen() {
     return document.getElementById("ingresoImagen").value
 }
 
-function getImgJugador() {
-    return document.getElementById("ingresoImgJugador").value
+function moverARegistro() {
+  document.getElementById("login-form").style.display = "none";
+  document.getElementById("registro-form").style.display = "block";
 }
 
-function handleLogin() {
-    if (login()) {
-      window.location.href = "../dificultades.html";
-    }
-  }
-  
-  function handleRegister() {
-    Register();
-  }
+function moverALogin() {
+  document.getElementById("registro-form").style.display = "none";
+  document.getElementById("login-form").style.display = "block";
+}
 
-function moverARegistro() {
-    document.getElementById("login-form").style.display = "none";
-    document.getElementById("registro-form").style.display = "block";
-  }
   
-  function moverALogin() {
-    document.getElementById("registro-form").style.display = "none";
-    document.getElementById("login-form").style.display = "block";
-    }
