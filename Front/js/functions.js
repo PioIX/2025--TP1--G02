@@ -1,78 +1,92 @@
-let users = [];
 let idLogged = 0;
+let users = [];
 
-// ==== OBTENER DATOS DEL FORMULARIO ====
-function getPassword() {
-    const loginPass = document.getElementById("loginPassword");
-    const registroPass = document.getElementById("registroPassword");
-    return loginPass?.offsetParent !== null ? loginPass.value : registroPass.value;
+// ✅ Cargar usuarios guardados 
+window.onload = () => {
+  const guardados = localStorage.getItem("usuarios");
+  if (guardados) {
+    users = JSON.parse(guardados);
   }
-  
+};
 
 // ==== LÓGICA DE LOGIN ====
 function existUser(password, email) {
-    for (let i = 0; i < users.length; i++) {
-      if (users[i].email === email) {
-        if (users[i].password === password) {
-          idLogged = users[i].id;
-          return idLogged;
-        } else {
-          return 0; // Contraseña incorrecta
-        }
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].email === email) {
+      if (users[i].password === password) {
+        idLogged = users[i].id;
+        return idLogged;
+      } else {
+        return 0; // contraseña incorrecta
       }
     }
-    return -1; // Usuario no existe
+  }
+  return -1; // usuario no existe
+}
+
+function login() {
+  let result = existUser(getPassword(), getEmail());
+  if (result > 0) {
+    idLogged = result;
+    return true;
+  } else if (result === 0) {
+    alert("Contraseña incorrecta.");
+    return false;
+  } else {
+    alert("Usuario no existe.");
+    return false;
+  }
+}
+
+function newUser(password, email, username) {
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].email === email) {
+      return -1;
+    }
   }
 
-  function login() {
-    let result = existUser(getPassword(), getEmail());
-    if (result > 0) {
-      idLogged = result;
-      return true;
-    } else if (result === 0) {
-      alert("Contraseña Incorrecta. Ingrese nuevamente.");
-      return false;
-    } else {
-      alert("Usuario no existe. Ingrese nuevamente.");
-      return false;
-    }
-  }
+  let id = getIdUsuario();
+  const nuevoUsuario = {
+    id: id,
+    email: email,
+    password: password,
+    username: username
+  };
 
-  function newUser(password, email, username) {
-    for (let i = 0; i < users.length; i++) {
-      if (users[i].email === email) {
-        return -1; // Ya existe
-      }
-    }
-    let id = getIdUsuario();
-    users.push({ id: id, email: email, password: password, username: username });
-    return id;
-  }
+  users.push(nuevoUsuario);
+  localStorage.setItem("usuarios", JSON.stringify(users));
+  return id;
+}
 
-function Register() {
-    let result = newUser(getPassword(), getCorreo(), getNombreUsuario());
-    if (result === -1) {
-      alert("Error: el correo ya está registrado.");
-    } else {
-      alert("¡Usuario creado exitosamente!");
-      window.location.href = "../dificultades.html"; // ✅ Redirección
+function handleLogin() {
+  if (login()) {
+    const usuario = users.find(u => u.email === getEmail());
+    if (usuario) {
+      localStorage.setItem("usuarioActivo", usuario.username);
     }
+    window.location.href = "dificultades.html";
   }
-  
-  function handleLogin() {
-    if (login()) {
-      // ✅ REDIRECCIÓN FUNCIONANDO DESDE LOGIN
-      window.location.href = "dificultades.html";
-    }
+}
+
+
+function handleRegister() {
+  let result = newUser(getPassword(), getCorreo(), getNombreUsuario());
+  if (result !== -1) {
+    alert("¡Usuario creado exitosamente!");
+    window.location.href = "dificultades.html";
+  } else {
+    alert("Correo ya registrado.");
   }
-  
-  function handleRegister() {
-    let result = newUser(getPassword(), getCorreo(), getNombreUsuario());
-    if (result === -1) {
-      alert("Error: el correo ya está registrado.");
-    } else {
-      idLogged = result;
-      // ✅ REDIRECCIÓN FUNCIONANDO DESDE REGISTRO
-      window.location.href = "dificultades.html";
-    }
+}
+
+function mostrarUsuarioActivo() {
+  const usuario = localStorage.getItem("usuarioActivo");
+  const contenedor = document.getElementById("usuarioActivo");
+  if (usuario && contenedor) {
+    contenedor.innerText = `Bienvenido, ${usuario}`;
   }
+}
+
+function salirSinEliminar() {
+  window.location.href = "login.html";
+}
