@@ -10,37 +10,55 @@
 
 <body>
   <div class="container">
+
+    <!-- CABECERA -->
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div id="usuarioActivo" style="font-size: 16px; margin: 10px; font-weight: bold;"></div>
+
+      <div style="margin: 10px;">
+        <button onclick="salirSinEliminar()">Volver</button>
+      </div>
+    </div>
+
+    <!-- TITULO -->
     <div class="header">
       <h1>POR FAVOR, ELIJA LA</h1>
       <h2>DIFICULTAD</h2>
     </div>
 
+    <!-- NIVELES -->
     <div class="levels">
-      <button class="level-button"onclick="location.href='Niveles/Nivel 1.html'">
-          <div class="icon">⚽</div>
-          <div class="title">NIVEL FÁCIL</div>
-          <div class="desc">¡nivel para calentar motores!</div>
+      <button class="level-button" onclick="location.href='Niveles/Nivel 1.html'">
+        <div class="icon">⚽</div>
+        <div class="title">NIVEL FÁCIL</div>
+        <div class="desc">¡nivel para calentar motores!</div>
       </button>
 
-      <button class="level-button"onclick="location.href='Niveles/Nivel 2.html'">
-          <div class="icon">🧠</div>
-          <div class="title">NIVEL MEDIO</div>
-          <div class="desc">conocidos, pero no obvios</div>
+      <button class="level-button" onclick="location.href='Niveles/Nivel 2.html'">
+        <div class="icon">🧠</div>
+        <div class="title">NIVEL MEDIO</div>
+        <div class="desc">conocidos, pero no obvios</div>
       </button>
 
-      <button class="level-button"onclick="location.href='Niveles/Nivel 3.html'">
-           <div class="icon">🔥</div>
-            <div class="title">NIVEL DIFÍCIL</div>
-           <div class="desc">no es para cualquiera...</div>
+      <button class="level-button" onclick="location.href='Niveles/Nivel 3.html'">
+        <div class="icon">🔥</div>
+        <div class="title">NIVEL DIFÍCIL</div>
+        <div class="desc">no es para cualquiera...</div>
       </button>
 
       <button class="level-button" onclick="location.href='Niveles/Nivel 4.html'">
-          <div class="icon">🏆</div>
-          <div class="title">NIVEL EXTREMO</div>
-         <div class="desc">cada acierto aquí es una hazaña</div>
+        <div class="icon">🏆</div>
+        <div class="title">NIVEL EXTREMO</div>
+        <div class="desc">cada acierto aquí es una hazaña</div>
       </button>
     </div>
+
   </div>
+  <script src="js/dom.js"></script>
+  <script src="js/functions.js"></script>
+  <script>
+  mostrarUsuarioActivo();
+</script>
 </body>
 
 </html>

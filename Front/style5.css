@@ -71,3 +71,21 @@ button:hover {
 .register-link a:hover {
     text-decoration: underline;
 }
+
+.container {
+    overflow: hidden;
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  .slider {
+    display: flex;
+    width: 200%;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .form-wrapper {
+    width: 100%;
+    flex-shrink: 0;
+  }
