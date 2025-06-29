@@ -2,13 +2,61 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>¿Quién es él?</title>
-  <link rel="stylesheet" href="style4.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuatro Fotos, Un Jugador</title>
+  <link rel="stylesheet" href="../Front/style4.css">
+  <script src="../Front/js/functions.js" defer></script>
+  <script src="../Front/js/dom.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <div class="nivel">NIVEL FÁCIL</div>
-    
-    <div class="titulo">¿QUIÉN ES ÉL?</div>
-    
-    <div class="imagen
+  <header>
+    <h1>CUATRO FOTOS, UN JUGADOR</h1>
+    <p>¡El juego donde tu pasión futbolera te pone a prueba!</p>
+  </header>
+
+  <main>
+    <section id="login-section">
+      <h2>Iniciar Sesión</h2>
+      <input id="email" type="email" placeholder="Correo">
+      <input id="password" type="password" placeholder="Contraseña">
+      <button onclick="login()">Ingresar</button>
+      <button onclick="Register()">Registrarse</button>
+    </section>
+
+    <section id="dificultad-section">
+      <h2>POR FAVOR, ELIJA LA DIFICULTAD</h2>
+      <button id="facil" onclick="seleccionarDificultad('Fácil')">⚽ NIVEL FÁCIL</button>
+      <button id="medio" onclick="seleccionarDificultad('Medio')">🧠 NIVEL MEDIO</button>
+      <button id="dificil" onclick="seleccionarDificultad('Difícil')">🔥 NIVEL DIFÍCIL</button>
+      <button id="extremo" onclick="seleccionarDificultad('Extremo')">🏆 NIVEL EXTREMO</button>
+    </section>
+
+    <section id="juego-section" style="display:none">
+      <h2 id="nivelTitulo">NIVEL: FÁCIL</h2>
+      <div class="imagenes-jugador">
+        <img src="" alt="pista 1" id="img1">
+        <img src="" alt="pista 2" id="img2">
+        <img src="" alt="pista 3" id="img3">
+        <img src="" alt="pista 4" id="img4">
+      </div>
+      <input id="respuestaJugador" type="text" placeholder="¿Quién es el jugador?">
+      <button onclick="verificarRespuesta()">Enviar</button>
+
+      <div id="feedback"></div>
+
+      <button onclick="siguienteJugador()">PRÓXIMO JUGADOR</button>
+      <button onclick="cambiarNivel()">CAMBIAR NIVEL</button>
+    </section>
+
+    <section id="final-section" style="display:none">
+      <h2>¡JUEGO COMPLETADO, FELICIDADES!</h2>
+      <button onclick="reiniciarJuego()">Volver al inicio</button>
+      <button onclick="cambiarNivel()">Cambiar nivel</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>© Juego educativo futbolero</p>
+  </footer>
+</body>
+</html>
