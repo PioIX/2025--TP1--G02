@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Seleccionar Nivel</title>
+  <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+  <div class="container">
+    <div class="overlay">
+      <h1 id="titulo-nivel">Selecciona un nivel</h1>
+    </div>
+
+    <div class="niveles">
+      <div class="nivel" onclick="mostrarNivel(1)">
+        <img src="ball-icon.png" alt="Fácil">
+        <h3>NIVEL FÁCIL</h3>
+        <p>¡nivel para calentar motores!</p>
+      </div>
+
+      <div class="nivel" onclick="mostrarNivel(2)">
+        <img src="brain-icon.png" alt="Medio">
+        <h3>NIVEL MEDIO</h3>
+        <p>conocidos, pero no obvios</p>
+      </div>
+
+      <div class="nivel" onclick="mostrarNivel(3)">
+        <img src="fire-icon.png" alt="Difícil">
+        <h3>NIVEL DIFÍCIL</h3>
+        <p>no es para cualquiera...</p>
+      </div>
+
+      <div class="nivel" onclick="mostrarNivel(4)">
+        <img src="trophy-icon.png" alt="Extremo">
+        <h3>NIVEL EXTREMO</h3>
+        <p>cada acierto aquí es una hazaña</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/dom.js"></script>
+  <script src="js/functions.js"></script>
+</body>
+</html>
