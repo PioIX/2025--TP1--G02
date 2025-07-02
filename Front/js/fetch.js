@@ -1,20 +1,26 @@
-async function usuarios(datos){
+async function usuarios(datos) {
     try {
-        response = await fetch(`http://localhost:4000/Usuarios_partidas`,{
-            method:"POST", //GET, POST, PUT o DELETE
+        const response = await fetch(`http://localhost:4000/Usuarios_partidas`, {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-              },
-            body: JSON.stringify(datos) //JSON.stringify me convierte de objeto a JSON
-        })
-        //El response me imprime el JSON no tiene utilidad real
-        console.log(response)
-        //Desarmo el JSON y pasa a ser un objeto
-        let result = await response.json()
-        console.log(result)
+            },
+            body: JSON.stringify(datos)
+        });
+
+        let result = await response.json();
+        console.log(result);
+
+        if (response.ok) {
+            return true; // todo salió bien
+        } else {
+            return false; // hubo error
+        }
+
     } catch (error) {
-        alert("No se pudo agregar el usuario")
-        console.log(error)
+        alert("No se pudo agregar el usuario");
+        console.log(error);
+        return false;
     }
 }
 

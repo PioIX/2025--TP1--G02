@@ -1,16 +1,31 @@
-app.post('/Dificultades', async (req, res) => {
-    const existe = await realizarQuery(`SELECT * FROM dificultades WHERE id_dificultad =${req.body.id_dificultad }`);
-    if (existe.length > 0) {
-        return res.send("Ya existe una dificultad con ese id");
-    
-    } else{
-        await realizarQuery(`
-        INSERT INTO dificultades (id_dificultad , nombre)
-        VALUES (${req.body.id_partida}, "${req.body.nombre}" )
-    `);
-    res.send("Dificultad agregada");
-}
+var express = require('express'); //Tipo de servidor: Express
+var bodyParser = require('body-parser'); //Convierte los JSON
+var cors = require('cors');
+const { realizarQuery } = require('./modulos/mysql');
+
+var app = express(); //Inicializo express
+var port = process.env.PORT || 4000; //Ejecuto el servidor en el puerto 3000
+
+// Convierte una petición recibida (POST-GET...) a objeto JSON
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
+app.use(cors());
+
+app.listen(port, function () {
+    console.log(`Server running in http://localhost:${port}`);
 });
+app.get('/', function(req, res){
+    res.status(200).send({
+        message: 'GET Home route working fine!'
+    });
+});
+
+/**
+ * req = request. en este objeto voy a tener todo lo que reciba del cliente
+ * res = response. Voy a responderle al cliente
+ */
+
+//----------------------------------------------------------------------------------------------------
 
 app.get('/Dificultades', async function (req, res) {
     let respuesta;
@@ -109,14 +124,14 @@ CREATE TABLE partidas (
 app.post('/Usuarios_partidas', async (req, res) => {
     const existe = await realizarQuery(`SELECT * FROM usuarios_partidas WHERE id_usuario=${req.body.id_usuario}`);
     if (existe.length > 0) {
-        return res.send("Ya existe un usuario con ese id");
+        return res.send({res:"Ya existe un usuario con ese id", ok:false});
     
     } else{
         await realizarQuery(`
         INSERT INTO usuarios_partidas (id_usuario, id_partida, nombre, correo)
         VALUES (${req.body.id_usuario}, ${req.body.id_partida}, "${req.body.nombre}", "${req.body.correo}")
     `);
-    res.send("Usuario agregado");
+    res.send({res:"Usuario agregado", ok:false});
 }
 });
 
@@ -177,49 +192,6 @@ CREATE TABLE imagenes (
 
 
 /*
-app.get('/Mundiales', async function (req, res) {
-    let respuesta;
-    if (req.query.año != undefined){
-        respuesta = await realizarQuery(`SELECT * FROM mundiales WHERE año=${req.query.año}`)
-    } else {
-        respuesta = await realizarQuery(`SELECT * FROM mundiales`)
-    }
-    res.send(respuesta);
-
-});
-
-app.get('/Selecciones', async function (req, res) {
-    let respuesta;
-    if (req.query.nombre != undefined){
-        respuesta = await realizarQuery(`SELECT * FROM selecciones WHERE nombre=${req.query.nombre}`)
-    } else {
-        respuesta = await realizarQuery(`SELECT * FROM selecciones`)
-    }
-    res.send(respuesta);
-
-});
-
-app.get('/Goleadores', async function (req, res) {
-    let respuesta;
-    if (req.query.id_jugador != undefined){
-        respuesta = await realizarQuery(`SELECT * FROM goleadores WHERE id_jugador=${req.query.id_jugador}`)
-    } else {
-        respuesta = await realizarQuery(`SELECT * FROM goleadores`)
-    }
-    res.send(respuesta);
-});
-
-app.get('/SeleccionesXmundiales', async function (req, res) {
-    let respuesta;
-    if (req.query.nombre != undefined){
-        respuesta = await realizarQuery(`SELECT * FROM seleccionesXmundiales WHERE nombre=${req.query.nombre}`)
-    } else {
-        respuesta = await realizarQuery(`SELECT * FROM seleccionesXmundiales`)
-    }
-    res.send(respuesta);
-});
-
-
 app.put('/Mundiales', async (req, res) => {
 
     await realizarQuery(`

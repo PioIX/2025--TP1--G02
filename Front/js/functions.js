@@ -38,25 +38,33 @@ function login() {
   }
 }
 
-function newUser(password, email, username) {
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].email === email) {
-      return -1;
+async function newUser(password, email, username) {
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].email === email) {
+            return -1;
+        }
     }
-  }
 
-  let id = getIdUsuario();
-  const nuevoUsuario = {
-    id: id,
-    email: email,
-    password: password,
-    username: username
-  };
+    let id = getIdUsuario();
+    const nuevoUsuario = {
+        id_usuario: id,
+        nombre: username,
+        correo: email,
+        password: password,
+        id_partida: getIdPartida()
+    };
 
-  users.push(nuevoUsuario);
-  localStorage.setItem("usuarios", JSON.stringify(users));
-  return id;
+    const success = await usuarios(nuevoUsuario);
+
+    if (success) {
+        localStorage.setItem("user", JSON.stringify(nuevoUsuario));
+        return id;
+    } else {
+        return -1;
+    }
 }
+
+
 
 function handleLogin() {
   if (login()) {
