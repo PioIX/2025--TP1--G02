@@ -91,18 +91,28 @@ app.get('/Partidas', async function (req, res) {
 
 
 app.post('/Usuarios_partidas', async (req, res) => {
-    const existe = await realizarQuery(`SELECT * FROM usuarios_partidas WHERE id_usuario=${req.body.id_usuario}`);
-    if (existe.length > 0) {
-        return res.send({res:"Ya existe un usuario con ese id", ok:false});
-    
-    } else{
-        await realizarQuery(`
-        INSERT INTO usuarios_partidas (id_usuario,nombre, correo)
-        VALUES (${req.body.id_usuario}, "${req.body.nombre}", "${req.body.correo}")
-    `);
-    res.send({res:"Usuario agregado", ok:true});
-}
-});
+    const { nombre, correo, password } = req.body;
+  
+    try {
+      const existe = await realizarQuery(`SELECT * FROM usuarios_partidas WHERE correo="${correo}"`);
+  
+      if (existe.length > 0) {
+        return res.send({ ok: false, mensaje: "Ya existe un usuario con ese correo" });
+      }
+  
+      await realizarQuery(`
+        INSERT INTO usuarios_partidas (nombre, correo, password)
+        VALUES ("${nombre}", "${correo}", "${password}")
+      `);
+  
+      res.send({ ok: true, mensaje: "Usuario registrado correctamente" });
+  
+    } catch (error) {
+      console.error("Error al registrar usuario:", error);
+      res.status(500).send({ ok: false, mensaje: "Error en el servidor" });
+    }
+  });
+  
 
 app.get('/Usuarios_partidas', async function (req, res) {
     let respuesta;
@@ -141,6 +151,21 @@ app.get('/Imagenes', async function (req, res) {
 
 });
 
+app.post('/login', async (req, res) => {
+    const { correo, password } = req.body;
+  
+    const resultado = await realizarQuery(`
+      SELECT * FROM usuarios_partidas 
+      WHERE correo = "${correo}" AND password = "${password}"
+    `);
+  
+    if (resultado.length === 1) {
+      const usuario = resultado[0];
+      res.send({ ok: true, usuario });
+    } else {
+      res.send({ ok: false, mensaje: "Usuario o contraseña incorrectos" });
+    }
+  });
 
 /*
 app.put('/Mundiales', async (req, res) => {
