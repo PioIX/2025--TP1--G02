@@ -1,7 +1,7 @@
 let idLogged = 0;
 let users = [];
 
-// ✅ Cargar usuarios guardados 
+//  Cargar usuarios guardados 
 window.onload = () => {
   const guardados = localStorage.getItem("usuarios");
   if (guardados) {
@@ -39,23 +39,17 @@ function login() {
 }
 
 async function newUser(password, email, username) {
-    for (let i = 0; i < users.length; i++) {
-        if (users[i].email === email) {
-            return -1;
-        }
-    }
 
     let id = getIdUsuario();
     const nuevoUsuario = {
         id_usuario: id,
         nombre: username,
         correo: email,
-        password: password,
-        id_partida: getIdPartida()
+        password: password
     };
 
     const success = await usuarios(nuevoUsuario);
-
+    console.log(success)
     if (success) {
         localStorage.setItem("user", JSON.stringify(nuevoUsuario));
         return id;
@@ -63,8 +57,6 @@ async function newUser(password, email, username) {
         return -1;
     }
 }
-
-
 
 function handleLogin() {
   if (login()) {
@@ -77,8 +69,8 @@ function handleLogin() {
 }
 
 
-function handleRegister() {
-  let result = newUser(getPassword(), getCorreo(), getNombreUsuario());
+async function handleRegister() {
+  let result = await newUser(getPassword(), getCorreo(), getNombreUsuario());
   if (result !== -1) {
     alert("¡Usuario creado exitosamente!");
     window.location.href = "dificultades.html";

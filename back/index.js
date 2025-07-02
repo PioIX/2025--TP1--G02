@@ -38,13 +38,6 @@ app.get('/Dificultades', async function (req, res) {
 
 });
 
-
-/*-- Tabla: dificultades
-CREATE TABLE dificultades (
-    id_dificultad INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(50) NOT NULL UNIQUE
-);*/
-
 app.post('/Jugadores', async (req, res) => {
     const existe = await realizarQuery(`SELECT * FROM jugadores WHERE id_jugador=${req.body.id_jugador}`);
     if (existe.length > 0) {
@@ -70,19 +63,6 @@ app.get('/Jugadores', async function (req, res) {
 
 });
 
-
-/*
--- Tabla: jugadores
-CREATE TABLE jugadores (
-    id_jugador INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(100) NOT NULL,
-    id_partida INT NOT NULL,
-    id_imagen INT NOT NULL,
-    id_dificultad INT NOT NULL,
-    descripcion TEXT,
-    FOREIGN KEY (id_dificultad) REFERENCES dificultades(id_dificultad)
-);
-*/
 
 app.post('/Partidas', async (req, res) => {
     const existe = await realizarQuery(`SELECT * FROM partidas WHERE id_partida=${req.body.id_partida}`);
@@ -110,17 +90,6 @@ app.get('/Partidas', async function (req, res) {
 });
 
 
-/*-- Tabla: partidas
-CREATE TABLE partidas (
-    id_partida INT PRIMARY KEY AUTO_INCREMENT,
-    id_jugador INT NOT NULL,
-    intentos INT DEFAULT 0,
-    acertado BOOLEAN DEFAULT FALSE,
-    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_jugador) REFERENCES jugadores(id_jugador)
-);
-^*/
-
 app.post('/Usuarios_partidas', async (req, res) => {
     const existe = await realizarQuery(`SELECT * FROM usuarios_partidas WHERE id_usuario=${req.body.id_usuario}`);
     if (existe.length > 0) {
@@ -128,10 +97,10 @@ app.post('/Usuarios_partidas', async (req, res) => {
     
     } else{
         await realizarQuery(`
-        INSERT INTO usuarios_partidas (id_usuario, id_partida, nombre, correo)
-        VALUES (${req.body.id_usuario}, ${req.body.id_partida}, "${req.body.nombre}", "${req.body.correo}")
+        INSERT INTO usuarios_partidas (id_usuario,nombre, correo)
+        VALUES (${req.body.id_usuario}, "${req.body.nombre}", "${req.body.correo}")
     `);
-    res.send({res:"Usuario agregado", ok:false});
+    res.send({res:"Usuario agregado", ok:true});
 }
 });
 
@@ -146,15 +115,6 @@ app.get('/Usuarios_partidas', async function (req, res) {
 
 });
 
-/*-- Tabla: usuarios_partidas
-CREATE TABLE usuarios_partidas (
-    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
-    id_partida INT NOT NULL,
-    nombre VARCHAR(100) NOT NULL,
-    correo VARCHAR(100) UNIQUE,
-    FOREIGN KEY (id_partida) REFERENCES partidas(id_partida)
-);
-*/
 
 app.post('/Imagenes', async (req, res) => {
     const existe = await realizarQuery(`SELECT * FROM imagenes WHERE id_imagen=${req.body.id_imagen}`);
@@ -180,15 +140,6 @@ app.get('/Imagenes', async function (req, res) {
     res.send(respuesta);
 
 });
-
-/*-- Tabla: imagenes
-CREATE TABLE imagenes (
-    id_imagen INT PRIMARY KEY AUTO_INCREMENT,
-    id_jugador INT NOT NULL,
-    img_jugador TEXT NOT NULL,
-    FOREIGN KEY (id_jugador) REFERENCES jugadores(id_jugador)
-);
-*/
 
 
 /*

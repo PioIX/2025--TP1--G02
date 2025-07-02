@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS imagenes;
+DROP TABLE IF EXISTS jugadores;
+DROP TABLE IF EXISTS partidas;
+DROP TABLE IF EXISTS usuarios_partidas;
+DROP TABLE IF EXISTS dificultades;
