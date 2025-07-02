@@ -45,6 +45,7 @@ async function tablaUsuarios() {
     //Desarmo el JSON y pasa a ser un objeto
     let usuarios = await response.json()
     console.log("Usuarios_partidas:",usuarios);
+    users.push(usuarios)
 }
 
 //---------------------------------------------------------------------------------------------------//

@@ -28,6 +28,7 @@ function login() {
   let result = existUser(getPassword(), getEmail());
   if (result > 0) {
     idLogged = result;
+    adminUser(getPassword(), getEmail())
     return true;
   } else if (result === 0) {
     alert("Contraseña incorrecta.");
@@ -122,4 +123,20 @@ function mostrarNivel(nivel) {
   }
 
   titulo.textContent = texto;
+}
+
+function adminUser(password, email) {
+  try {
+    let id = existUser(password,email)
+    let usuario = users[usuarios.id - 1];
+    if (usuario.es_admin) {
+      // Redirigir al panel administrador
+      window.location.href = 'admin_panel.html';
+    } else {
+      // Redirigir al juego
+      window.location.href = "dificultades.html";
+    }
+  } catch (error) {
+    console.error('Error al iniciar sesión:', error);
+  }
 }
