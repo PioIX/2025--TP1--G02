@@ -1,19 +1,18 @@
---Tabla dificultades
+-- Tabla dificultades (no depende de ninguna)
 CREATE TABLE dificultades (
     id_dificultad INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL UNIQUE
 );
 
--- Tabla usuarios_partidas (con campo password y es_admin)
+-- Tabla usuarios_partidas (independiente, ahora no tiene FK a partidas)
 CREATE TABLE usuarios_partidas (
     id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
     correo VARCHAR(100) UNIQUE,
-    password VARCHAR(100) NOT NULL,
     es_admin BOOLEAN DEFAULT FALSE
 );
 
--- Tabla partidas (referencia a usuarios_partidas)
+-- Tabla partidas (depende de usuarios_partidas)
 CREATE TABLE partidas (
     id_partida INT PRIMARY KEY AUTO_INCREMENT,
     id_usuario INT NOT NULL,
@@ -23,7 +22,7 @@ CREATE TABLE partidas (
     FOREIGN KEY (id_usuario) REFERENCES usuarios_partidas(id_usuario)
 );
 
--- Tabla jugadores (referencia a dificultades)
+-- Tabla jugadores (depende de dificultades)
 CREATE TABLE jugadores (
     id_jugador INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
@@ -34,7 +33,7 @@ CREATE TABLE jugadores (
     FOREIGN KEY (id_dificultad) REFERENCES dificultades(id_dificultad)
 );
 
--- Tabla imagenes (referencia a jugadores)
+-- Tabla imagenes (depende de jugadores)
 CREATE TABLE imagenes (
     id_imagen INT PRIMARY KEY AUTO_INCREMENT,
     id_jugador INT NOT NULL,
@@ -42,3 +41,5 @@ CREATE TABLE imagenes (
     FOREIGN KEY (id_jugador) REFERENCES jugadores(id_jugador)
 );
 
+INSERT INTO usuarios_partidas (nombre, correo, es_admin)
+VALUES ('admin', 'admin@ejemplo.com', TRUE);
