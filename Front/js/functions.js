@@ -67,12 +67,8 @@ async function login() {
 
   } catch (error) {
     console.error("Error al loguear:", error);
-    return false;
-  }
-}
 
-
-async function newUser(password, email, username) {
+ async function newUser(password, email, username) {
   for (let i = 0; i < users.length; i++) {
     if (users[i].email === email) {
       return -1;
@@ -170,4 +166,20 @@ function mostrarNivel(nivel) {
   }
 
   titulo.textContent = texto;
+}
+
+function adminUser(password, email) {
+  try {
+    let id = existUser(password,email)
+    let usuario = users[usuarios.id - 1];
+    if (usuario.es_admin) {
+      // Redirigir al panel administrador
+      window.location.href = 'admin_panel.html';
+    } else {
+      // Redirigir al juego
+      window.location.href = "dificultades.html";
+    }
+  } catch (error) {
+    console.error('Error al iniciar sesión:', error);
+  }
 }

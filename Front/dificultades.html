@@ -8,16 +8,15 @@
   <link rel="stylesheet" href="style2.css" />
 </head>
 
-<body>
+<body onload="mostrarUsuarioActivo()">
   <div class="container">
 
-    <!-- CABECERA -->
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <div id="usuarioActivo" style="font-size: 16px; margin: 10px; font-weight: bold;"></div>
+    <!-- Bienvenida -->
+    <div id="usuarioActivo"></div>
 
-      <div style="margin: 10px;">
-        <button onclick="salirSinEliminar()">Volver</button>
-      </div>
+    <!-- Botón Volver -->
+    <div class="volver-container">
+      <button onclick="salirSinEliminar()" class="volver">Volver</button>
     </div>
 
     <!-- TITULO -->
@@ -56,9 +55,6 @@
   </div>
   <script src="js/dom.js"></script>
   <script src="js/functions.js"></script>
-  <script>
-  mostrarUsuarioActivo();
-</script>
 </body>
 
 </html>

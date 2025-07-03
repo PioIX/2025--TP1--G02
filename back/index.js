@@ -89,7 +89,6 @@ app.get('/Partidas', async function (req, res) {
 
 });
 
-
 app.post('/Usuarios_partidas', async (req, res) => {
     const { nombre, correo, password } = req.body;
   
@@ -124,7 +123,6 @@ app.get('/Usuarios_partidas', async function (req, res) {
     res.send(respuesta);
 
 });
-
 
 app.post('/Imagenes', async (req, res) => {
     const existe = await realizarQuery(`SELECT * FROM imagenes WHERE id_imagen=${req.body.id_imagen}`);
