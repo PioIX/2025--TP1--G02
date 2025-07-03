@@ -43,3 +43,4 @@ CREATE TABLE imagenes (
 
 INSERT INTO usuarios_partidas (nombre, correo, es_admin)
 VALUES ('admin', 'admin@ejemplo.com', TRUE);
+
