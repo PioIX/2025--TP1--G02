@@ -17,7 +17,6 @@ async function fetchUsuariosDesdeDB() {
       username: u.nombre,
       email: u.correo,
       es_admin: u.es_admin,
-      password: "1234" 
     }));
 
     console.log("Usuarios cargados desde la base:", users);
@@ -107,8 +106,8 @@ async function newUser(password, email, username) {
 }
 
 
-function handleLogin() {
-  if (login()) {
+async function handleLogin() {
+  if (await login()) {
     const usuario = users.find(u => u.email === getEmail());
     if (usuario) {
       localStorage.setItem("usuarioActivo", usuario.username);

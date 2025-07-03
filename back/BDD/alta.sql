@@ -42,3 +42,5 @@ CREATE TABLE imagenes (
     FOREIGN KEY (id_jugador) REFERENCES jugadores(id_jugador)
 );
 
+INSERT INTO usuarios_partidas
+
