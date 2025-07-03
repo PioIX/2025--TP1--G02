@@ -1,13 +1,31 @@
 let idLogged = 0;
 let users = [];
 
-// ✅ Cargar usuarios guardados 
-window.onload = () => {
-  const guardados = localStorage.getItem("usuarios");
-  if (guardados) {
-    users = JSON.parse(guardados);
-  }
+//  Cargar usuarios guardados 
+window.onload = async () => {
+  await fetchUsuariosDesdeDB();
 };
+
+async function fetchUsuariosDesdeDB() {
+  try {
+    const response = await fetch('http://localhost:4000/Usuarios_partidas');
+    const data = await response.json();
+    
+    // (no están en la base)
+    users = data.map(u => ({
+      id: u.id_usuario,
+      username: u.nombre,
+      email: u.correo,
+      es_admin: u.es_admin,
+      password: "1234" 
+    }));
+
+    console.log("Usuarios cargados desde la base:", users);
+  } catch (error) {
+    console.error("Error al cargar usuarios desde la base:", error);
+  }
+}
+
 
 // ==== LÓGICA DE LOGIN ====
 function existUser(password, email) {
@@ -24,47 +42,65 @@ function existUser(password, email) {
   return -1; // usuario no existe
 }
 
-function login() {
-  let result = existUser(getPassword(), getEmail());
-  if (result > 0) {
-    idLogged = result;
-    adminUser(getPassword(), getEmail())
-    return true;
-  } else if (result === 0) {
-    alert("Contraseña incorrecta.");
-    return false;
+async function login() {
+  const correo = getEmail();
+  const password = getPassword();
+
+  try {
+    const response = await fetch("http://localhost:4000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ correo, password }),
+    });
+
+    const result = await response.json();
+
+    if (result.ok) {
+      localStorage.setItem("usuarioActivo", result.usuario.nombre);
+      return true;
+    } else {
+      alert("Usuario o contraseña incorrectos");
+      return false;
+    }
+
+  } catch (error) {
+    console.error("Error al loguear:", error);
+
+ async function newUser(password, email, username) {
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].email === email) {
+      return -1;
+    }
+  }
+
+  let id = getIdUsuario(); 
+  const nuevoUsuario = {
+    id_usuario: id,
+    nombre: username,
+    correo: email,
+    password: password,
+  };
+
+  const success = await usuarios(nuevoUsuario);
+
+  if (success) {
+    // Simulamos contraseña guardada
+    users.push({
+      id: id,
+      username: username,
+      email: email,
+      password: password,
+      es_admin: false
+    });
+
+    localStorage.setItem("user", JSON.stringify(nuevoUsuario));
+    return id;
   } else {
-    alert("Usuario no existe.");
-    return false;
+    return -1;
   }
 }
-
-async function newUser(password, email, username) {
-    for (let i = 0; i < users.length; i++) {
-        if (users[i].email === email) {
-            return -1;
-        }
-    }
-
-    let id = getIdUsuario();
-    const nuevoUsuario = {
-        id_usuario: id,
-        nombre: username,
-        correo: email,
-        password: password,
-        id_partida: getIdPartida()
-    };
-
-    const success = await usuarios(nuevoUsuario);
-
-    if (success) {
-        localStorage.setItem("user", JSON.stringify(nuevoUsuario));
-        return id;
-    } else {
-        return -1;
-    }
-}
-
 
 
 function handleLogin() {
@@ -78,13 +114,20 @@ function handleLogin() {
 }
 
 
-function handleRegister() {
-  let result = newUser(getPassword(), getCorreo(), getNombreUsuario());
-  if (result !== -1) {
-    alert("¡Usuario creado exitosamente!");
+async function handleRegister() {
+  let datos = {
+    nombre: getNombreUsuario(),
+    correo: getCorreo(),
+    password: getPassword()
+  };
+
+  const success = await usuarios(datos);
+
+  if (success) {
+    alert("¡Usuario registrado correctamente!");
     window.location.href = "dificultades.html";
   } else {
-    alert("Correo ya registrado.");
+    alert("Hubo un error al registrar.");
   }
 }
 

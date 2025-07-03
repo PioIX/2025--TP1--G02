@@ -1,28 +1,23 @@
 async function usuarios(datos) {
     try {
-        const response = await fetch(`http://localhost:4000/Usuarios_partidas`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(datos)
-        });
-
-        let result = await response.json();
-        console.log(result);
-
-        if (response.ok) {
-            return true; // todo salió bien
-        } else {
-            return false; // hubo error
-        }
-
+      const response = await fetch(`http://localhost:4000/Usuarios_partidas`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(datos)
+      });
+  
+      const result = await response.json();
+      console.log(result);
+  
+      return result.ok;
+  
     } catch (error) {
-        alert("No se pudo agregar el usuario");
-        console.log(error);
-        return false;
+      console.error("Error al registrar:", error);
+      return false;
     }
-}
+  }
 
 function crear() {
     let datos={
