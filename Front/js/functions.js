@@ -66,6 +66,8 @@ async function login() {
 
   } catch (error) {
     console.error("Error al loguear:", error);
+  }
+}
 
  async function newUser(password, email, username) {
   for (let i = 0; i < users.length; i++) {
@@ -117,7 +119,6 @@ async function handleRegister() {
   let datos = {
     nombre: getNombreUsuario(),
     correo: getCorreo(),
-    password: getPassword()
   };
 
   const success = await usuarios(datos);

@@ -9,6 +9,7 @@ CREATE TABLE usuarios_partidas (
     id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
     correo VARCHAR(100) UNIQUE,
+    contraseña VARCHAR(100) 
     es_admin BOOLEAN DEFAULT FALSE
 );
 
@@ -41,6 +42,6 @@ CREATE TABLE imagenes (
     FOREIGN KEY (id_jugador) REFERENCES jugadores(id_jugador)
 );
 
-INSERT INTO usuarios_partidas (nombre, correo, es_admin)
-VALUES ('admin', 'admin@ejemplo.com', TRUE);
+INSERT INTO usuarios_partidas (nombre, correo, contraseña, es_admin)
+VALUES ('admin', 'admin@ejemplo.com', "123", TRUE);
 
