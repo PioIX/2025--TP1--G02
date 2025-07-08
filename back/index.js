@@ -91,26 +91,25 @@ app.get('/Partidas', async function (req, res) {
 
 app.post('/Usuarios_partidas', async (req, res) => {
     const { nombre, correo, password } = req.body;
-  
+
     try {
-      const existe = await realizarQuery(`SELECT * FROM usuarios_partidas WHERE correo="${correo}"`);
-  
-      if (existe.length > 0) {
-        return res.send({ ok: false, mensaje: "Ya existe un usuario con ese correo" });
-      }
-  
-      await realizarQuery(`
-        INSERT INTO usuarios_partidas (nombre, correo, password)
-        VALUES ("${nombre}", "${correo}", "${password}")
-      `);
-  
-      res.send({ ok: true, mensaje: "Usuario registrado correctamente" });
-  
+        const existe = await realizarQuery(`SELECT * FROM usuarios_partidas WHERE correo="${correo}"`);
+        if (existe.length > 0) {
+            return res.send({ ok: false, mensaje: "Ya existe un usuario con ese correo" });
+        }
+
+        await realizarQuery(`
+            INSERT INTO usuarios_partidas (nombre, correo, contraseña)
+            VALUES ("${nombre}", "${correo}", "${contraseña}")
+        `);
+
+        res.send({ ok: true, mensaje: "Usuario registrado correctamente" });
+
     } catch (error) {
-      console.error("Error al registrar usuario:", error);
-      res.status(500).send({ ok: false, mensaje: "Error en el servidor" });
+        console.error("Error al registrar usuario:", error);
+        res.status(500).send({ ok: false, mensaje: "Error en el servidor" });
     }
-  });
+});
   
 
 app.get('/Usuarios_partidas', async function (req, res) {

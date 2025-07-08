@@ -8,7 +8,7 @@ window.onload = async () => {
 
 async function fetchUsuariosDesdeDB() {
   try {
-    const response = await fetch('http://localhost:4000/Usuarios_partidas');
+    const response = await fetch(`http://localhost:4000/Usuarios_partidas`);
     const data = await response.json();
     
     // (no están en la base)
@@ -16,7 +16,8 @@ async function fetchUsuariosDesdeDB() {
       id: u.id_usuario,
       username: u.nombre,
       email: u.correo,
-      es_admin: u.es_admin,
+      contraseña: u.contraseña,
+      es_admin: u.es_admin
     }));
 
     console.log("Usuarios cargados desde la base:", users);
@@ -43,7 +44,7 @@ function existUser(password, email) {
 
 async function login() {
   const correo = getEmail();
-  const password = getPassword();
+  const contraseña = getPassword();
 
   try {
     const response = await fetch("http://localhost:4000/login", {
@@ -51,21 +52,20 @@ async function login() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ correo, password }),
+      body: JSON.stringify({ correo, contraseña }),
     });
 
     const result = await response.json();
 
     if (result.ok) {
       localStorage.setItem("usuarioActivo", result.usuario.nombre);
-      return true;
+      window.location.href = "dificultades.html";
     } else {
       alert("Usuario o contraseña incorrectos");
-      return false;
     }
 
   } catch (error) {
-    console.error("Error al loguear:", error);
+    console.error("Error al loguear: " + error.message);
   }
 }
 
@@ -116,15 +116,21 @@ async function handleLogin() {
 
 
 async function handleRegister() {
-  let datos = {
-    nombre: getNombreUsuario(),
-    correo: getCorreo(),
+  const nombre = getNombreUsuario();
+  const correo = getCorreo();
+  const password = getPassword();
+
+  const datos = {
+    nombre,
+    correo,
+    password
   };
 
   const success = await usuarios(datos);
 
   if (success) {
     alert("¡Usuario registrado correctamente!");
+    localStorage.setItem("usuarioActivo", nombre);
     window.location.href = "dificultades.html";
   } else {
     alert("Hubo un error al registrar.");

@@ -5,12 +5,15 @@ async function usuarios(datos) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(datos)
+        body: JSON.stringify({
+          nombre: datos.nombre,
+          correo: datos.correo,
+          contraseña: datos.contraseña 
+        })
       });
   
       const result = await response.json();
       console.log(result);
-  
       return result.ok;
   
     } catch (error) {
@@ -18,17 +21,7 @@ async function usuarios(datos) {
       return false;
     }
   }
-
-function crear() {
-    let datos={
-        id_usuario: getIdUsuario(),
-        nombre: getNombreUsuario(),
-        correo: getCorreo(),
-        id_partida: getIdPartida()
-    }
-    usuarios(datos)
-}
-
+  
 
 async function tablaUsuarios() {
     let response = await fetch('http://localhost:4000/Usuarios_partidas', {
