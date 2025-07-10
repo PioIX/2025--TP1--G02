@@ -150,29 +150,6 @@ function salirSinEliminar() {
 }
 
 
-function mostrarNivel(nivel) {
-  const titulo = document.getElementById('titulo-nivel');
-  let texto = '';
-
-  switch (nivel) {
-    case 1:
-      texto = 'NIVEL 1: FÁCIL 🏀';
-      break;
-    case 2:
-      texto = 'NIVEL 2: MEDIO 🧠';
-      break;
-    case 3:
-      texto = 'NIVEL 3: DIFÍCIL 🔥';
-      break;
-    case 4:
-      texto = 'NIVEL 4: EXTREMO 🏆';
-      break;
-    default:
-      texto = 'Selecciona un nivel';
-  }
-
-  titulo.textContent = texto;
-}
 
 function adminUser(password, email) {
   try {
@@ -189,3 +166,6 @@ function adminUser(password, email) {
     console.error('Error al iniciar sesión:', error);
   }
 }
+
+
+
