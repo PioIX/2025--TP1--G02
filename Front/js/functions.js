@@ -28,10 +28,10 @@ async function fetchUsuariosDesdeDB() {
 
 
 // ==== LÓGICA DE LOGIN ====
-function existUser(password, email) {
+function existUser(contraseña, email) {
   for (let i = 0; i < users.length; i++) {
     if (users[i].email === email) {
-      if (users[i].password === password) {
+      if (users[i].contraseña === contraseña) {
         idLogged = users[i].id;
         return idLogged;
       } else {
@@ -69,7 +69,7 @@ async function login() {
   }
 }
 
- async function newUser(password, email, username) {
+async function newUser(contraseña, email, username) {
   for (let i = 0; i < users.length; i++) {
     if (users[i].email === email) {
       return -1;
@@ -81,7 +81,7 @@ async function login() {
     id_usuario: id,
     nombre: username,
     correo: email,
-    password: password,
+    contraseña: contraseña,
   };
 
   const success = await usuarios(nuevoUsuario);
@@ -92,7 +92,7 @@ async function login() {
       id: id,
       username: username,
       email: email,
-      password: password,
+      contraseña: contraseña,
       es_admin: false
     });
 
@@ -116,14 +116,12 @@ async function handleLogin() {
 
 
 async function handleRegister() {
-  const nombre = getNombreUsuario();
-  const correo = getCorreo();
-  const password = getPassword();
 
-  const datos = {
-    nombre,
-    correo,
-    password
+  let datos = {
+    nombre: getNombreUsuario(),
+    correo: getCorreo(),
+    contraseña: getPassword()
+
   };
 
   const success = await usuarios(datos);
@@ -151,9 +149,9 @@ function salirSinEliminar() {
 
 
 
-function adminUser(password, email) {
+function adminUser(contraseña, email) {
   try {
-    let id = existUser(password,email)
+    let id = existUser(contraseña,email)
     let usuario = users[usuarios.id - 1];
     if (usuario.es_admin) {
       // Redirigir al panel administrador
