@@ -128,8 +128,8 @@ async function handleRegister() {
 
   if (success) {
     alert("¡Usuario registrado correctamente!");
-    localStorage.setItem("usuarioActivo", nombre);
     window.location.href = "dificultades.html";
+    localStorage.setItem("usuarioActivo", nombre);
   } else {
     alert("Hubo un error al registrar.");
   }
