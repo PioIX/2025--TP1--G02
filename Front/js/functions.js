@@ -167,5 +167,8 @@ function adminUser(password, email) {
   }
 }
 
-
+function elegirNivel(nivel) {
+  localStorage.setItem("nivel", nivel);
+  location.href = "Niveles.html"
+}
 
