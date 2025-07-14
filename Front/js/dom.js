@@ -67,3 +67,27 @@ function moverALogin() {
   document.getElementById("registro-form").style.display = "none";
   document.getElementById("login-form").style.display = "block";
 }
+
+function setDivDificultad(dificultad) {
+  let texto = "Fácil"
+  switch(dificultad) {
+    case 1:
+      texto = "Fácil"
+      break;
+    case 2:
+      texto = "Medio"
+      break;
+    case 3:
+      texto = "Difícil"
+      break;
+    case 4:
+      texto = "Extremo"
+      break;
+    default:
+      texto = "Fácil"
+      break;
+  }
+
+  document.getElementById("dificultad").innerHTML = '<h1>Nivel ' + dificultad + " : " + texto + '</h1>'
+}
+

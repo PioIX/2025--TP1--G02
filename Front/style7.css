@@ -1,0 +1,78 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("fotos/fondo.jpeg");
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    color: white;
+    text-align: center;
+}
+
+.container {
+    padding-top: 20px;
+}
+
+.nivel {
+    position: absolute;
+    top: 8px; /* un poco más arriba */
+    left: 25px;
+    font-weight: 900;
+    font-size: 30px;
+}
+
+h1 {
+    font-size: 90px;
+    font-weight: 900;
+    margin: 60px 0 30px 0;
+}
+
+.imagenes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+    row-gap: 30px;
+    column-gap: 60px;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.imagenes img {
+    width: 350px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Ajustes individuales por orden de aparición */
+
+.imagenes img:nth-child(1) {
+    object-position: center 30%; /* cabra */
+}
+
+.imagenes img:nth-child(2) {
+    object-position: 58% center; /* bandera un pelito más a la derecha */
+}
+
+.imagenes img:nth-child(3) {
+    object-position: center center; /* escudo Inter Miami */
+}
+
+.imagenes img:nth-child(4) {
+    object-position: center 40%; /* balón de oro un poco más abajo */
+}
+
+.input-container {
+    margin-top: 40px;
+}
+
+input[type="text"] {
+    width: 350px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 18px;
+    text-align: center;
+}
