@@ -107,10 +107,10 @@ app.post('/Usuarios_partidas', async (req, res) => {
       res.send({ ok: true, mensaje: "Usuario registrado correctamente" });
   
     } catch (error) {
-      console.error("Error al registrar usuario:", error);
-      res.status(500).send({ ok: false, mensaje: "Error en el servidor" });
+        console.error("Error al registrar usuario:", error);
+        res.status(500).send({ ok: false, mensaje: "Error en el servidor" });
     }
-  });
+});
   
 
 app.get('/Usuarios_partidas', async function (req, res) {

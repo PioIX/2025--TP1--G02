@@ -1,57 +1,32 @@
-body {
+body, html {
   margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: 'Arial', sans-serif;
-  background-image: url('cancha-fondo.png'); /* Cambia por tu imagen de fondo real si es necesario */
+}
+
+.contenedor {
+  background-image: url('/Front/fotos/Captura\ de\ pantalla\ 2025-07-10\ 133749.png');
   background-size: cover;
   background-position: center;
-  color: white;
-  text-align: center;
-}
-
-.container {
-  padding-top: 50px;
-}
-
-.overlay h1 {
-  font-size: 3em;
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
-}
-
-.niveles {
+  height: 100vh;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 40px;
+  align-items: center;
+}
+
+.texto {
+  font-size: 3em;
+  font-weight: bold;
+  color: white;
+  padding: 20px 40px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
   gap: 20px;
 }
 
-.nivel {
-  cursor: pointer;
-  padding: 20px;
-  border: 2px solid white;
-  border-radius: 15px;
-  background-color: rgba(255, 255, 255, 0.1);
-  width: 150px;
-  transition: background 0.3s;
-}
-
-.nivel:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
-.nivel img {
-  width: 40px;
-  height: 40px;
-}
-
-.nivel h3 {
-  margin: 10px 0 5px;
-}
-
-.nivel p {
-  margin: 0;
-  font-size: 0.9em;
+.icono {
+  width: 50px;
+  height: 50px;
 }

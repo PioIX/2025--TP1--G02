@@ -8,7 +8,7 @@ window.onload = async () => {
 
 async function fetchUsuariosDesdeDB() {
   try {
-    const response = await fetch('http://localhost:4000/Usuarios_partidas');
+    const response = await fetch(`http://localhost:4000/Usuarios_partidas`);
     const data = await response.json();
     
     // (no están en la base)
@@ -16,7 +16,8 @@ async function fetchUsuariosDesdeDB() {
       id: u.id_usuario,
       username: u.nombre,
       email: u.correo,
-      es_admin: u.es_admin,
+      contraseña: u.contraseña,
+      es_admin: u.es_admin
     }));
 
     console.log("Usuarios cargados desde la base:", users);
@@ -58,19 +59,17 @@ async function login() {
 
     if (result.ok) {
       localStorage.setItem("usuarioActivo", result.usuario.nombre);
-      return true;
+      window.location.href = "dificultades.html";
     } else {
       alert("Usuario o contraseña incorrectos");
-      return false;
     }
 
   } catch (error) {
-    console.error("Error al loguear:", error);
-    }
+    console.error("Error al loguear: " + error.message);
   }
-  
+}
 
- async function newUser(contraseña, email, username) {
+async function newUser(contraseña, email, username) {
   for (let i = 0; i < users.length; i++) {
     if (users[i].email === email) {
       return -1;
@@ -117,16 +116,19 @@ async function handleLogin() {
 
 
 async function handleRegister() {
+
   let datos = {
     nombre: getNombreUsuario(),
     correo: getCorreo(),
     contraseña: getPassword()
+
   };
 
   const success = await usuarios(datos);
 
   if (success) {
     alert("¡Usuario registrado correctamente!");
+    localStorage.setItem("usuarioActivo", nombre);
     window.location.href = "dificultades.html";
   } else {
     alert("Hubo un error al registrar.");
@@ -146,29 +148,6 @@ function salirSinEliminar() {
 }
 
 
-function mostrarNivel(nivel) {
-  const titulo = document.getElementById('titulo-nivel');
-  let texto = '';
-
-  switch (nivel) {
-    case 1:
-      texto = 'NIVEL 1: FÁCIL 🏀';
-      break;
-    case 2:
-      texto = 'NIVEL 2: MEDIO 🧠';
-      break;
-    case 3:
-      texto = 'NIVEL 3: DIFÍCIL 🔥';
-      break;
-    case 4:
-      texto = 'NIVEL 4: EXTREMO 🏆';
-      break;
-    default:
-      texto = 'Selecciona un nivel';
-  }
-
-  titulo.textContent = texto;
-}
 
 function adminUser(contraseña, email) {
   try {
@@ -185,3 +164,6 @@ function adminUser(contraseña, email) {
     console.error('Error al iniciar sesión:', error);
   }
 }
+
+
+
