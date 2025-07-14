@@ -27,10 +27,10 @@ async function fetchUsuariosDesdeDB() {
 
 
 // ==== LÓGICA DE LOGIN ====
-function existUser(password, email) {
+function existUser(contraseña, email) {
   for (let i = 0; i < users.length; i++) {
     if (users[i].email === email) {
-      if (users[i].password === password) {
+      if (users[i].contraseña === contraseña) {
         idLogged = users[i].id;
         return idLogged;
       } else {
@@ -43,7 +43,7 @@ function existUser(password, email) {
 
 async function login() {
   const correo = getEmail();
-  const password = getPassword();
+  const contraseña = getPassword();
 
   try {
     const response = await fetch("http://localhost:4000/login", {
@@ -51,7 +51,7 @@ async function login() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ correo, password }),
+      body: JSON.stringify({ correo, contraseña }),
     });
 
     const result = await response.json();
@@ -66,8 +66,11 @@ async function login() {
 
   } catch (error) {
     console.error("Error al loguear:", error);
+    }
+  }
+  
 
- async function newUser(password, email, username) {
+ async function newUser(contraseña, email, username) {
   for (let i = 0; i < users.length; i++) {
     if (users[i].email === email) {
       return -1;
@@ -79,7 +82,7 @@ async function login() {
     id_usuario: id,
     nombre: username,
     correo: email,
-    password: password,
+    contraseña: contraseña,
   };
 
   const success = await usuarios(nuevoUsuario);
@@ -90,7 +93,7 @@ async function login() {
       id: id,
       username: username,
       email: email,
-      password: password,
+      contraseña: contraseña,
       es_admin: false
     });
 
@@ -117,7 +120,7 @@ async function handleRegister() {
   let datos = {
     nombre: getNombreUsuario(),
     correo: getCorreo(),
-    password: getPassword()
+    contraseña: getPassword()
   };
 
   const success = await usuarios(datos);
@@ -167,9 +170,9 @@ function mostrarNivel(nivel) {
   titulo.textContent = texto;
 }
 
-function adminUser(password, email) {
+function adminUser(contraseña, email) {
   try {
-    let id = existUser(password,email)
+    let id = existUser(contraseña,email)
     let usuario = users[usuarios.id - 1];
     if (usuario.es_admin) {
       // Redirigir al panel administrador

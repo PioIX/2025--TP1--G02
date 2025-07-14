@@ -90,7 +90,7 @@ app.get('/Partidas', async function (req, res) {
 });
 
 app.post('/Usuarios_partidas', async (req, res) => {
-    const { nombre, correo, password } = req.body;
+    const { nombre, correo, contraseña } = req.body;
   
     try {
       const existe = await realizarQuery(`SELECT * FROM usuarios_partidas WHERE correo="${correo}"`);
@@ -100,8 +100,8 @@ app.post('/Usuarios_partidas', async (req, res) => {
       }
   
       await realizarQuery(`
-        INSERT INTO usuarios_partidas (nombre, correo, password)
-        VALUES ("${nombre}", "${correo}", "${password}")
+        INSERT INTO usuarios_partidas (nombre, correo, contraseña)
+        VALUES ("${nombre}", "${correo}", "${contraseña}")
       `);
   
       res.send({ ok: true, mensaje: "Usuario registrado correctamente" });
@@ -150,11 +150,11 @@ app.get('/Imagenes', async function (req, res) {
 });
 
 app.post('/login', async (req, res) => {
-    const { correo, password } = req.body;
+    const { correo, contraseña } = req.body;
   
     const resultado = await realizarQuery(`
       SELECT * FROM usuarios_partidas 
-      WHERE correo = "${correo}" AND password = "${password}"
+      WHERE correo = "${correo}" AND contraseña = "${contraseña}"
     `);
   
     if (resultado.length === 1) {
