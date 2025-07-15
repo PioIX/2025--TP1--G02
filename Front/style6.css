@@ -1,58 +1,70 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body, html {
-    height: 100%;
-    font-family: 'Arial Black', sans-serif;
-  }
-  
-  body {
-    background: url('/Front/fotos/messi\ correcto.png') no-repeat center center fixed;
-    background-size: cover;
-    position: relative;
-    color: white;
-  }
-  
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 128, 0, 0.6); 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  h1 {
-    font-size: 48px;
-    margin-bottom: 100px;
-  }
-  
-  .botones {
-    position: absolute;
-    bottom: 40px;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-  }
-  
-  .boton {
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: underline;
-    cursor: pointer;
-    transition: color 0.3s;
-  }
-  
-  .boton:hover {
-    color: #f0f0f0;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Arial Black', sans-serif;
+}
+
+body {
+  position: relative;
+  color: white;
+}
+
+/* Pantalla de respuesta correcta */
+#pantalla-correcta {
+  background: url('fotos/messi\ correcto.png') no-repeat center center;
+  background-size: cover;
+}
+
+/* Pantalla de respuesta incorrecta */
+#pantalla-incorrecta {
+  background: url('fotos/messi\ incorrecto.png') no-repeat center center;
+  background-size: cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none; /* Oculto por defecto */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Oscurece un poco la imagen */
+}
+
+h1 {
+  font-size: 48px;
+  margin-bottom: 100px;
+  text-shadow: 2px 2px 5px black;
+}
+
+.botones {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 30px;
+}
+
+.boton {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.boton:hover {
+  color: #f0f0f0;
+}

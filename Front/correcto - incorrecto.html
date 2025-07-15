@@ -1,16 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nivel Fácil</title>
-  <link rel="stylesheet" href="style3.css">
+  <meta charset="UTF-8">
+  <title>Feedback de Respuesta</title>
+  <link rel="stylesheet" href="style6.css">
 </head>
 <body>
-  <div class="contenedor">
-    <div class="texto">
-      NIVEL 1: FÁCIL
+  <div id="pantalla-correcta" class="overlay">
+    <h1>RESPUESTA CORRECTA</h1>
+    <div class="botones">
+      <div class="boton" onclick="location.href='inicio.html'">
+        VOLVER AL<br>INICIO
+      </div>
+      <div class="boton" onclick="location.href='nivel.html'">
+        SIGUIENTE<br>NIVEL
+      </div>
+      <div class="boton" onclick="location.href='jugador.html'">
+        PROXIMO<br>JUGADOR
+      </div>
     </div>
   </div>
+
+  <div id="pantalla-incorrecta" class="overlay incorrecta">
+    <h1>RESPUESTA INCORRECTA</h1>
+    <div class="botones">
+      <div class="boton" onclick="location.href='dificultades.html'">
+        VOLVER AL<br>INICIO
+      </div>
+    </div>
+  </div>
+  <script src="js/dom.js"></script>
+  <script src="js/functions.js"></script>
 </body>
 </html>

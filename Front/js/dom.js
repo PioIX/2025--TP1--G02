@@ -91,3 +91,17 @@ function setDivDificultad(dificultad) {
   document.getElementById("dificultad").innerHTML = '<h1>Nivel ' + dificultad + " : " + texto + '</h1>'
 }
 
+  const pantallaCorrecta = document.getElementById('pantalla-correcta');
+  const pantallaIncorrecta = document.getElementById('pantalla-incorrecta');
+  const respuestaGuardada = localStorage.getItem('respuestaCorrecta');
+
+  if (pantallaCorrecta && pantallaIncorrecta) {
+    if (respuestaGuardada === 'true') {
+      pantallaCorrecta.style.display = 'flex';
+      pantallaIncorrecta.style.display = 'none';
+    } else {
+      pantallaCorrecta.style.display = 'none';
+      pantallaIncorrecta.style.display = 'flex';
+    }
+  }
+;
