@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>¿Quién es él?</title>
-    <link rel="stylesheet" href="style7.css">
+  <meta charset="UTF-8">
+  <title>¿Quién es él?</title>
+  <link rel="stylesheet" href="style7.css">
 </head>
 <body>
-    <div class="container">
-        <p class="nivel">NIVEL FÁCIL</p>
-        <h1>¿QUIÉN ES ÉL?</h1>
+  <div class="container">
+    <p class="nivel">NIVEL FÁCIL</p>
+    <h1>¿QUIÉN ES ÉL?</h1>
 
-        <div class="imagenes">
-            <img src="jugadoresfotos/messi1.png" alt="imagen 1">
-            <img src="jugadoresfotos/messi2.png" alt="imagen 2">
-            <img src="jugadoresfotos/messi3.png" alt="imagen 3">
-            <img src="jugadoresfotos/messi4.png" alt="imagen 4">
-        </div>
-
-        <div class="input-container">
-            <input type="text" placeholder="Escribir jugador...">
-        </div>
+    <div class="imagenes">
+      <img src="jugadoresfotos/messi1.png" alt="imagen 1">
+      <img src="jugadoresfotos/messi2.png" alt="imagen 2">
+      <img src="jugadoresfotos/messi3.png" alt="imagen 3">
+      <img src="jugadoresfotos/messi4.png" alt="imagen 4">
     </div>
+
+    <div class="input-container">
+      <input id="respuesta" type="text" placeholder="Escribir jugador...">
+      <button type="button" onclick="verificarRespuesta()">ENVIAR</button>
+    </div>
+  </div>
+
+  <!-- Enlace a funciones -->
+  <script src="../Front/js/dom.js"></script>
+  <script src="../Front/js/functions.js"></script>
 </body>
 </html>
-
-

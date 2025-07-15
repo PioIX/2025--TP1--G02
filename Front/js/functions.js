@@ -170,3 +170,75 @@ function elegirNivel(nivel) {
   location.href = "Niveles.html"
 }
 
+function mostrarCorrecta() {
+  document.getElementById('pantalla-correcta').style.display = 'flex';
+  document.getElementById('pantalla-incorrecta').style.display = 'none';
+}
+
+function mostrarIncorrecta() {
+  document.getElementById('pantalla-correcta').style.display = 'none';
+  document.getElementById('pantalla-incorrecta').style.display = 'flex';
+}
+
+function verificarRespuesta() {
+  const input = document.getElementById('respuesta');
+  if (!input) return;
+
+  const respuesta = input.value.trim().toLowerCase();
+  const indice = parseInt(localStorage.getItem('jugadorActual') || '0');
+  const jugador = jugadores[indice];
+
+  if (respuesta === jugador.nombre) {
+    localStorage.setItem('respuestaCorrecta', 'true');
+  } else {
+    localStorage.setItem('respuestaCorrecta', 'false');
+  }
+  window.location.href = 'correcto - incorrecto.html';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('respuesta');
+  if (input) {
+    input.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        verificarRespuesta();
+      }
+    });
+  }
+
+  const pantallaCorrecta = document.getElementById('pantalla-correcta');
+  const pantallaIncorrecta = document.getElementById('pantalla-incorrecta');
+  const respuesta = localStorage.getItem('respuestaCorrecta');
+
+  if (pantallaCorrecta && pantallaIncorrecta && respuesta !== null) {
+    if (respuesta === 'true') {
+      pantallaCorrecta.style.display = 'flex';
+      pantallaIncorrecta.style.display = 'none';
+    } else {
+      pantallaCorrecta.style.display = 'none';
+      pantallaIncorrecta.style.display = 'flex';
+    }
+
+    localStorage.removeItem('respuestaCorrecta');
+  }
+});
+
+function proximoJugador() {
+  let indice = parseInt(localStorage.getItem('jugadorActual') || '0');
+  indice++;
+  if (indice >= jugadores.length) indice = 0; // o mostrar "fin"
+  localStorage.setItem('jugadorActual', indice);
+  window.location.href = 'jugadores.html';
+}
+
+function cargarJugador(indice) {
+  const jugador = jugadores[indice];
+  const imagenes = document.querySelectorAll('.imagenes img');
+  for (let i = 0; i < imagenes.length; i++) {
+    imagenes[i].src = jugador.imagenes[i];
+    imagenes[i].alt = `imagen ${i + 1}`;
+  }
+  // Limpiar input
+  const input = document.getElementById('respuesta');
+  if (input) input.value = '';
+}
