@@ -1,3 +1,32 @@
+// Cambia las imágenes y el texto de nivel según el jugador recibido por query string
+function setFotosYTextoNivel() {
+  function getJugadorFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('jugador') || 'messi';
+  }
+  const jugador = getJugadorFromQuery();
+  let nivelTexto = '';
+  let ruta = '';
+  if (jugador === 'bellingham') {
+    ruta = 'jugadoresfotos/bellinghammedio';
+    nivelTexto = 'NIVEL MEDIO';
+  } else if (jugador === 'gyokeres') {
+    ruta = 'jugadoresfotos/gyokeresdificil';
+    nivelTexto = 'NIVEL DIFÍCIL';
+  } else if (jugador === 'maravilla') {
+    ruta = 'jugadoresfotos/maravillaextremo';
+    nivelTexto = 'NIVEL EXTREMO';
+  } else {
+    ruta = 'jugadoresfotos/messi';
+    nivelTexto = 'NIVEL FÁCIL';
+  }
+  for (let i = 1; i <= 4; i++) {
+    const img = document.getElementById('img' + i);
+    if (img) img.src = `${ruta}${i}.png`;
+  }
+  const nivelElem = document.querySelector('.nivel');
+  if (nivelElem) nivelElem.textContent = nivelTexto;
+}
 let idLogged = 0;
 let users = [];
 
@@ -185,10 +214,55 @@ function verificarRespuesta() {
   if (!input) return;
 
   const respuesta = input.value.trim().toLowerCase();
-  const indice = parseInt(localStorage.getItem('jugadorActual') || '0');
-  const jugador = jugadores[indice];
+  // Detectar el jugador actual por query string
+  function getJugadorFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('jugador') || 'messi';
+  }
+  const jugador = getJugadorFromQuery();
+  let correctas = [];
+  if (jugador === 'bellingham') {
+    correctas = [
+      'bellingham',
+      'jude bellingham',
+      'jude victor william bellingham',
+      'jude victor bellingham',
+      'jude william bellingham'
+    ];
+  } else if (jugador === 'gyokeres') {
+    correctas = [
+      'gyokeres',
+      'victor gyokeres',
+      'viktor gyokeres',
+      'gyökeres'
+    ];
+  } else if (jugador === 'maravilla') {
+    correctas = [
+      'maravilla martinez',
+      'adrian maravilla martinez',
+      'adrian emmanuel martinez',
+      'adrian emmanuel maravilla martinez'
+    ];
+  } else {
+    correctas = [
+      'lionel messi',
+      'messi',
+      'lionel andres messi',
+      'lionel andres messi cuccittini'
+    ];
+  }
 
-  if (respuesta === jugador.nombre) {
+  // Normalizar respuesta y comparar con todas las variantes correctas
+  const normalizada = respuesta.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+  let esCorrecto = false;
+  for (let variante of correctas) {
+    let varianteNorm = variante.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+    if (normalizada === varianteNorm) {
+      esCorrecto = true;
+      break;
+    }
+  }
+  if (esCorrecto) {
     localStorage.setItem('respuestaCorrecta', 'true');
   } else {
     localStorage.setItem('respuestaCorrecta', 'false');

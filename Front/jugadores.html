@@ -11,20 +11,24 @@
     <h1>¿QUIÉN ES ÉL?</h1>
 
     <div class="imagenes">
-      <img src="jugadoresfotos/messi1.png" alt="imagen 1">
-      <img src="jugadoresfotos/messi2.png" alt="imagen 2">
-      <img src="jugadoresfotos/messi3.png" alt="imagen 3">
-      <img src="jugadoresfotos/messi4.png" alt="imagen 4">
+      <img id="img1" src="jugadoresfotos/messi1.png" alt="imagen 1">
+      <img id="img2" src="jugadoresfotos/messi2.png" alt="imagen 2">
+      <img id="img3" src="jugadoresfotos/messi3.png" alt="imagen 3">
+      <img id="img4" src="jugadoresfotos/messi4.png" alt="imagen 4">
     </div>
 
     <div class="input-container">
       <input id="respuesta" type="text" placeholder="Escribir jugador...">
-      <button type="button" onclick="verificarRespuesta()">ENVIAR</button>
     </div>
   </div>
 
   <!-- Enlace a funciones -->
   <script src="../Front/js/dom.js"></script>
   <script src="../Front/js/functions.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      setFotosYTextoNivel();
+    });
+  </script>
 </body>
 </html>
