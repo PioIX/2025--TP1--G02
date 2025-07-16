@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       let nivel = parseInt(localStorage.getItem('nivel'));
       if (!nivel || nivel === 1) {
-        window.location.href = 'jugadores.html?jugador=messi';
+        window.location.href = 'jugadores.html?dificultad=facil';
       } else if (nivel === 2) {
         window.location.href = 'jugadores.html?jugador=bellingham';
       } else if (nivel === 3) {
@@ -25,3 +25,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+//CAMBIAR LAS DIFICULTADES
