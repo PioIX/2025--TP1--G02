@@ -11,10 +11,10 @@
     <h1>¿QUIÉN ES ÉL?</h1>
 
     <div class="imagenes">
-      <img src="jugadoresfotos/messi1.png" alt="imagen 1">
-      <img src="jugadoresfotos/messi2.png" alt="imagen 2">
-      <img src="jugadoresfotos/messi3.png" alt="imagen 3">
-      <img src="jugadoresfotos/messi4.png" alt="imagen 4">
+      <img id="img1" src="jugadoresfotos/messi1.png" alt="imagen 1">
+      <img id="img2" src="jugadoresfotos/messi2.png" alt="imagen 2">
+      <img id="img3" src="jugadoresfotos/messi3.png" alt="imagen 3">
+      <img id="img4" src="jugadoresfotos/messi4.png" alt="imagen 4">
     </div>
 
     <div class="input-container">
@@ -26,5 +26,25 @@
   <!-- Enlace a funciones -->
   <script src="../Front/js/dom.js"></script>
   <script src="../Front/js/functions.js"></script>
+  <script>
+    // Cambia las imágenes según el jugador recibido por query string
+    function getJugadorFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('jugador') || 'messi';
+    }
+    const jugador = getJugadorFromQuery();
+    if (jugador === 'bellingham') {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('img' + i).src = `jugadoresfotos/bellinghammedio${i}.png`;
+      }
+      document.querySelector('.nivel').textContent = 'NIVEL MEDIO';
+    } else {
+      // Por defecto, Messi
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('img' + i).src = `jugadoresfotos/messi${i}.png`;
+      }
+      document.querySelector('.nivel').textContent = 'NIVEL FÁCIL';
+    }
+  </script>
 </body>
 </html>
