@@ -1,25 +1,32 @@
+function getDificultadFromQuery() {
+  const params = new URLSearchParams(window.location.search)
+  return params.get('dificultad')
+}
 // Cambia las imágenes y el texto de nivel según el jugador recibido por query string
-function setFotosYTextoNivel() {
-  function getJugadorFromQuery() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('jugador') || 'messi';
-  }
-  const jugador = getJugadorFromQuery();
-  let nivelTexto = '';
-  let ruta = '';
-  if (jugador === 'bellingham') {
-    ruta = 'jugadoresfotos/bellinghammedio';
-    nivelTexto = 'NIVEL MEDIO';
-  } else if (jugador === 'gyokeres') {
-    ruta = 'jugadoresfotos/gyokeresdificil';
-    nivelTexto = 'NIVEL DIFÍCIL';
-  } else if (jugador === 'maravilla') {
-    ruta = 'jugadoresfotos/maravillaextremo';
-    nivelTexto = 'NIVEL EXTREMO';
-  } else {
-    ruta = 'jugadoresfotos/messi';
-    nivelTexto = 'NIVEL FÁCIL';
-  }
+async function  traerJugadoresBDD(dificultad) {
+  
+  return fetch(`http://localhost:4000/jugadores?dificultad=${dificultad}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error al obtener los jugadores');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("Jugadores:", data); 
+      return data;
+    })
+    .catch(error => {
+      console.error("Hubo un problema:", error);
+    });
+}
+async function setFotosYTextoNivel() {
+  let dificultad = getDificultadFromQuery()
+  let res = await traerJugadoresBDD(dificultad)
+  console.log(res) //Aca tengo el vector d los jugadores
+  //Necesito el nombre de la imagen
+  //En facil necesitas solo el nombre, osea con el nombre q venga en la bdd le sumo el string: "jugadoresfotos/" + nombre_de_la_bdd
+  //En las otras dificultades hay que sumarle la dificultad
   for (let i = 1; i <= 4; i++) {
     const img = document.getElementById('img' + i);
     if (img) img.src = `${ruta}${i}.png`;
