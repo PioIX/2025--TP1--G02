@@ -38,6 +38,16 @@
         document.getElementById('img' + i).src = `jugadoresfotos/bellinghammedio${i}.png`;
       }
       document.querySelector('.nivel').textContent = 'NIVEL MEDIO';
+    } else if (jugador === 'gyokeres') {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('img' + i).src = `jugadoresfotos/gyokeresdificil${i}.png`;
+      }
+      document.querySelector('.nivel').textContent = 'NIVEL DIFÍCIL';
+    } else if (jugador === 'maravilla') {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('img' + i).src = `jugadoresfotos/maravillaextremo${i}.png`;
+      }
+      document.querySelector('.nivel').textContent = 'NIVEL EXTREMO';
     } else {
       // Por defecto, Messi
       for (let i = 1; i <= 4; i++) {

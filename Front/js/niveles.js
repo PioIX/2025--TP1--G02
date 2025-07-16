@@ -17,8 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'jugadores.html?jugador=messi';
       } else if (nivel === 2) {
         window.location.href = 'jugadores.html?jugador=bellingham';
+      } else if (nivel === 3) {
+        window.location.href = 'jugadores.html?jugador=gyokeres';
+      } else if (nivel === 4) {
+        window.location.href = 'jugadores.html?jugador=maravilla';
       }
-      // Puedes agregar más niveles aquí si lo necesitas
     });
   }
 });
