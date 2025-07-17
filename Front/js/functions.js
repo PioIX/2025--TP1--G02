@@ -263,24 +263,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-function proximoJugador() {
-  const jugadores = JSON.parse(localStorage.getItem('jugadores')); // Lista de jugadores del nivel actual
-  let jugadorActual = parseInt(localStorage.getItem('jugadorActual')) || 0; // Índice del jugador actual
+const jugadores = JSON.parse(localStorage.getItem('jugadores')) || [];
+  let jugadorActual = parseInt(localStorage.getItem('jugadorActual')) || 0;
 
-  jugadorActual++; // Avanzar al siguiente jugador
+  jugadorActual++;
 
   if (jugadorActual < jugadores.length) {
-    // Si hay más jugadores, actualizar el índice y cargar el siguiente jugador
     localStorage.setItem('jugadorActual', jugadorActual);
-    actualizarJugador(jugadorActual);
+    window.location.href = 'Niveles.html'; // Volver al juego con el nuevo jugador cargado
   } else {
-    // Si no hay más jugadores, mostrar un mensaje o redirigir
     alert('¡Has completado este nivel!');
-    localStorage.removeItem('jugadorActual'); // Reiniciar el índice
-    window.location.href = 'dificultades.html'; // Redirigir a la selección de niveles
+    localStorage.removeItem('jugadorActual');
+    window.location.href = 'dificultades.html';
   }
-}
 
+  
 function cargarJugador(indice) {
   const jugador = jugadores[indice];
   const imagenes = document.querySelectorAll('.imagenes img');
