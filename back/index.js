@@ -53,20 +53,23 @@ app.post('/Jugadores', async (req, res) => {
 });
 
 app.get('/Jugadores', async function (req, res) {
+  try {
     let respuesta;
-    if (req.query.id_jugador != undefined){
-        respuesta = await realizarQuery(`SELECT * FROM jugadores WHERE id_jugador=${req.query.id_jugador}`)
-    }
-    else if(req.query.dificultad != undefined){
-        respuesta = await realizarQuery(`SELECT id_jugador, jugadores.nombre FROM jugadores
-            INNER JOIN dificultades ON dificultades.id_dificultad = jugadores.id_dificultad
-            WHERE dificultades.nombre="${req.query.dificultad}"`)
-    }
-    else {
-        respuesta = await realizarQuery(`SELECT * FROM jugadores`)
+    if (req.query.dificultad) {
+      respuesta = await realizarQuery(`
+        SELECT jugadores.nombre, jugadores.descripcion, jugadores.id_dificultad
+        FROM jugadores
+        INNER JOIN dificultades ON jugadores.id_dificultad = dificultades.id_dificultad
+        WHERE dificultades.nombre = "${req.query.dificultad}"
+      `);
+    } else {
+      respuesta = await realizarQuery(`SELECT * FROM jugadores`);
     }
     res.send(respuesta);
-
+  } catch (error) {
+    console.error("Error al obtener jugadores:", error);
+    res.status(500).send({ error: "Error al obtener jugadores" });
+  }
 });
 
 
