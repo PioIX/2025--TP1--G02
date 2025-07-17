@@ -8,11 +8,12 @@
   <link rel="stylesheet" href="style2.css" />
 </head>
 
-<body onload="mostrarUsuarioActivo()">
+<body>
+
   <div class="container">
 
     <!-- Bienvenida -->
-    <div id="usuarioActivo"></div>
+
 
     <!-- Botón Volver -->
     <div class="volver-container">
@@ -55,6 +56,16 @@
   </div>
   <script src="js/dom.js"></script>
   <script src="js/functions.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      mostrarUsuarioActivo();
+    });
+  </script>  
+  <div class="volver-container" style="display: flex; align-items: center; gap: 10px;">
+    <div id="usuarioActivo" class="volver">Bienvenido</div>
+    <button onclick="salirSinEliminar()" class="volver">Volver</button>
+  </div>
+  
 </body>
 
 </html>
