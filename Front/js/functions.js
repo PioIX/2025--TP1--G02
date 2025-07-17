@@ -263,7 +263,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-const jugadores = JSON.parse(localStorage.getItem('jugadores')) || [];
+function proximoJugador() {
+  const jugadores = JSON.parse(localStorage.getItem('jugadores')) || [];
   let jugadorActual = parseInt(localStorage.getItem('jugadorActual')) || 0;
 
   jugadorActual++;
@@ -276,7 +277,7 @@ const jugadores = JSON.parse(localStorage.getItem('jugadores')) || [];
     localStorage.removeItem('jugadorActual');
     window.location.href = 'dificultades.html';
   }
-
+}
   
 function cargarJugador(indice) {
   const jugador = jugadores[indice];
