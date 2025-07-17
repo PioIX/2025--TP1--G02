@@ -4,35 +4,31 @@ function getDificultadFromQuery() {
 }
 // Cambia las imágenes y el texto de nivel según el jugador recibido por query string
 async function  traerJugadoresBDD(dificultad) {
-  
-  return fetch(`http://localhost:4000/jugadores?dificultad=${dificultad}`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Error al obtener los jugadores');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log("Jugadores:", data); 
-      return data;
-    })
-    .catch(error => {
-      console.error("Hubo un problema:", error);
-    });
+  try {
+    const response = await fetch(`http://localhost:4000/jugadores?dificultad=${dificultad}`);
+    if (!response.ok) {
+      throw new Error('Error al obtener los jugadores');
+    }
+    const data = await response.json();
+    console.log("Jugadores cargados:", data);
+    localStorage.setItem('jugadores', JSON.stringify(data)); // Guarda los jugadores en localStorage
+    return data;
+  } catch (error) {
+    console.error("Error al cargar jugadores:", error);
+    return [];
+  }
 }
 async function setFotosYTextoNivel() {
-  let dificultad = getDificultadFromQuery()
-  let res = await traerJugadoresBDD(dificultad)
-  console.log(res) //Aca tengo el vector d los jugadores
-  //Necesito el nombre de la imagen
-  //En facil necesitas solo el nombre, osea con el nombre q venga en la bdd le sumo el string: "jugadoresfotos/" + nombre_de_la_bdd
-  //En las otras dificultades hay que sumarle la dificultad
-  for (let i = 1; i <= 4; i++) {
-    const img = document.getElementById('img' + i);
-    if (img) img.src = `${ruta}${i}.png`;
+  const dificultad = getDificultadFromQuery();
+  const jugadores = await traerJugadoresBDD(dificultad);
+
+  // Inicializar el índice del jugador actual si no está definido
+  if (localStorage.getItem('jugadorActual') === null) {
+    localStorage.setItem('jugadorActual', '0');
   }
-  const nivelElem = document.querySelector('.nivel');
-  if (nivelElem) nivelElem.textContent = nivelTexto;
+
+  let jugadorActual = parseInt(localStorage.getItem('jugadorActual'));
+  actualizarJugador(jugadorActual); // Cargar el jugador actual
 }
 let idLogged = 0;
 let users = [];
@@ -220,61 +216,24 @@ function verificarRespuesta() {
   const input = document.getElementById('respuesta');
   if (!input) return;
 
-  const respuesta = input.value.trim().toLowerCase();
-  // Detectar el jugador actual por query string
-  function getJugadorFromQuery() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('jugador') || 'messi';
-  }
-  const jugador = getJugadorFromQuery();
-  let correctas = [];
-  if (jugador === 'bellingham') {
-    correctas = [
-      'bellingham',
-      'jude bellingham',
-      'jude victor william bellingham',
-      'jude victor bellingham',
-      'jude william bellingham'
-    ];
-  } else if (jugador === 'gyokeres') {
-    correctas = [
-      'gyokeres',
-      'victor gyokeres',
-      'viktor gyokeres',
-      'gyökeres'
-    ];
-  } else if (jugador === 'maravilla') {
-    correctas = [
-      'maravilla martinez',
-      'adrian maravilla martinez',
-      'adrian emmanuel martinez',
-      'adrian emmanuel maravilla martinez'
-    ];
-  } else {
-    correctas = [
-      'lionel messi',
-      'messi',
-      'lionel andres messi',
-      'lionel andres messi cuccittini'
-    ];
-  }
+  const respuesta = input.value.trim().toLowerCase(); // Respuesta del usuario
+  const jugadores = JSON.parse(localStorage.getItem('jugadores')); // Jugadores desde localStorage
+  const jugadorActual = parseInt(localStorage.getItem('jugadorActual')) || 0; // Índice del jugador actual
+  const jugador = jugadores[jugadorActual]; // Jugador actual
 
-  // Normalizar respuesta y comparar con todas las variantes correctas
-  const normalizada = respuesta.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
-  let esCorrecto = false;
-  for (let variante of correctas) {
-    let varianteNorm = variante.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
-    if (normalizada === varianteNorm) {
-      esCorrecto = true;
-      break;
-    }
-  }
-  if (esCorrecto) {
+  console.log("Respuesta ingresada:", respuesta);
+  console.log("Jugador actual:", jugador.nombre.trim().toLowerCase());
+
+  // Comparar con el nombre del jugador
+  if (respuesta === jugador.nombre.trim().toLowerCase()) {
+    console.log("Respuesta correcta");
     localStorage.setItem('respuestaCorrecta', 'true');
+    window.location.href = 'correcto - incorrecto.html'; // Redirige a la pantalla de correcto
   } else {
+    console.log("Respuesta incorrecta");
     localStorage.setItem('respuestaCorrecta', 'false');
+    window.location.href = 'correcto - incorrecto.html'; // Redirige a la pantalla de incorrecto
   }
-  window.location.href = 'correcto - incorrecto.html';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -305,11 +264,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function proximoJugador() {
-  let indice = parseInt(localStorage.getItem('jugadorActual') || '0');
-  indice++;
-  if (indice >= jugadores.length) indice = 0; // o mostrar "fin"
-  localStorage.setItem('jugadorActual', indice);
-  window.location.href = 'jugadores.html';
+  const jugadores = JSON.parse(localStorage.getItem('jugadores')); // Lista de jugadores del nivel actual
+  let jugadorActual = parseInt(localStorage.getItem('jugadorActual')) || 0; // Índice del jugador actual
+
+  jugadorActual++; // Avanzar al siguiente jugador
+
+  if (jugadorActual < jugadores.length) {
+    // Si hay más jugadores, actualizar el índice y cargar el siguiente jugador
+    localStorage.setItem('jugadorActual', jugadorActual);
+    actualizarJugador(jugadorActual);
+  } else {
+    // Si no hay más jugadores, mostrar un mensaje o redirigir
+    alert('¡Has completado este nivel!');
+    localStorage.removeItem('jugadorActual'); // Reiniciar el índice
+    window.location.href = 'dificultades.html'; // Redirigir a la selección de niveles
+  }
 }
 
 function cargarJugador(indice) {
@@ -320,6 +289,26 @@ function cargarJugador(indice) {
     imagenes[i].alt = `imagen ${i + 1}`;
   }
   // Limpiar input
+  const input = document.getElementById('respuesta');
+  if (input) input.value = '';
+}
+
+function actualizarJugador(indice) {
+  const jugadores = JSON.parse(localStorage.getItem('jugadores')); // Lista de jugadores del nivel actual
+  const jugador = jugadores[indice]; // Jugador actual
+  const dificultad = getDificultadFromQuery();
+
+  // Actualizar las imágenes del jugador actual
+  for (let i = 1; i <= 4; i++) {
+    const img = document.getElementById('img' + i);
+    if (img) {
+      img.src = dificultad === 'facil'
+        ? `jugadoresfotos/${jugador.nombre}${i}.png`
+        : `jugadoresfotos/${jugador.nombre}${dificultad}${i}.png`;
+    }
+  }
+
+  // Limpiar el campo de texto de respuesta
   const input = document.getElementById('respuesta');
   if (input) input.value = '';
 }
