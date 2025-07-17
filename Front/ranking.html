@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ranking de Ganadores</title>
+  <link rel="stylesheet" href="style7.css">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      background: url('fotos/fondo.jpeg') no-repeat center center;
+      background-size: cover;
+    }
+    .container {
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      font-size: 70px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 5px black;
+    }
+    label {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 3px black;
+    }
+    select {
+      font-size: 24px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      margin-bottom: 30px;
+      min-width: 300px;
+      text-align: center;
+    }
+    option {
+      background: #222;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>RANKING</h1>
+    <label for="ganadores">GANADORES</label>
+    <select id="ganadores">
+      <option>Cargando...</option>
+    </select>
+  </div>
+  <script>
+    // Consulta al backend para obtener los ganadores (usuarios que hayan acertado=1 en partidas)
+    fetch('http://localhost:4000/Partidas')
+      .then(res => res.json())
+      .then(partidas => {
+        // Filtra partidas ganadas
+        const ganadas = partidas.filter(p => p.acertado == 1);
+        // Extrae id_usuario únicos
+        const ids = [...new Set(ganadas.map(p => p.id_usuario))];
+        // Ahora consulta los nombres de usuario
+        fetch('http://localhost:4000/Usuarios_partidas')
+          .then(res => res.json())
+          .then(usuarios => {
+            const select = document.getElementById('ganadores');
+            select.innerHTML = '';
+            ids.forEach(id => {
+              const user = usuarios.find(u => u.id_usuario == id);
+              if (user) {
+                const option = document.createElement('option');
+                option.value = user.id_usuario;
+                option.textContent = user.nombre;
+                select.appendChild(option);
+              }
+            });
+            if (select.options.length === 0) {
+              select.innerHTML = '<option>No hay ganadores aún</option>';
+            }
+          });
+      });
+  </script>
+</body>
+</html>

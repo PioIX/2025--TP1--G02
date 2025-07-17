@@ -220,6 +220,7 @@ function verificarRespuesta() {
   const jugadores = JSON.parse(localStorage.getItem('jugadores')); // Jugadores desde localStorage
   const jugadorActual = parseInt(localStorage.getItem('jugadorActual')) || 0; // Índice del jugador actual
   const jugador = jugadores[jugadorActual]; // Jugador actual
+  console.log('DEBUG jugador:', jugador);
 
   console.log("Respuesta ingresada:", respuesta);
   console.log("Jugador actual:", jugador.nombre.trim().toLowerCase());
@@ -228,6 +229,12 @@ function verificarRespuesta() {
   if (respuesta === jugador.nombre.trim().toLowerCase()) {
     console.log("Respuesta correcta");
     localStorage.setItem('respuestaCorrecta', 'true');
+    // Si el jugador es Pavard por nombre, redirige a ganadores.html y reinicia el ciclo
+    if (jugador.nombre.trim().toLowerCase() === 'pavard') {
+      localStorage.setItem('jugadorActual', '0');
+      window.location.href = 'ganadores.html';
+      return;
+    }
     window.location.href = 'correcto - incorrecto.html'; // Redirige a la pantalla de correcto
   } else {
     console.log("Respuesta incorrecta");
