@@ -51,39 +51,78 @@
 <body>
   <div class="container">
     <h1>RANKING</h1>
-    <label for="ganadores">GANADORES</label>
-    <select id="ganadores">
-      <option>Cargando...</option>
-    </select>
+    <label for="tabla-ganadores">GANADORES</label>
+    <div id="tabla-ganadores-centrada">
+      <div id="tabla-ganadores-container">
+        <table id="tabla-ganadores">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+  <style>
+    #tabla-ganadores-centrada {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+    #tabla-ganadores-container {
+      max-height: 400px;
+      overflow-y: auto;
+      width: 320px;
+      margin-top: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.3);
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    #tabla-ganadores {
+      width: 100%;
+      border-collapse: collapse;
+      color: white;
+    }
+    #tabla-ganadores th, #tabla-ganadores td {
+      padding: 14px 10px;
+      border-bottom: 1px solid #444;
+      text-align: center;
+      font-size: 22px;
+    }
+    #tabla-ganadores th {
+      background: #222;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      font-size: 26px;
+    }
+    #tabla-ganadores tr:hover {
+      background: rgba(255,255,255,0.08);
+    }
+  </style>
   <script>
-    // Consulta al backend para obtener los ganadores (usuarios que hayan acertado=1 en partidas)
-    fetch('http://localhost:4000/Partidas')
+    fetch('http://localhost:4000/Usuarios_partidas')
       .then(res => res.json())
-      .then(partidas => {
-        // Filtra partidas ganadas
-        const ganadas = partidas.filter(p => p.acertado == 1);
-        // Extrae id_usuario únicos
-        const ids = [...new Set(ganadas.map(p => p.id_usuario))];
-        // Ahora consulta los nombres de usuario
-        fetch('http://localhost:4000/Usuarios_partidas')
-          .then(res => res.json())
-          .then(usuarios => {
-            const select = document.getElementById('ganadores');
-            select.innerHTML = '';
-            ids.forEach(id => {
-              const user = usuarios.find(u => u.id_usuario == id);
-              if (user) {
-                const option = document.createElement('option');
-                option.value = user.id_usuario;
-                option.textContent = user.nombre;
-                select.appendChild(option);
-              }
-            });
-            if (select.options.length === 0) {
-              select.innerHTML = '<option>No hay ganadores aún</option>';
-            }
+      .then(usuarios => {
+        const tbody = document.querySelector('#tabla-ganadores tbody');
+        tbody.innerHTML = '';
+        if (usuarios.length === 0) {
+          tbody.innerHTML = '<tr><td>No hay usuarios aún</td></tr>';
+        } else {
+          usuarios.forEach(user => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${user.nombre}</td>`;
+            tbody.appendChild(tr);
           });
+        }
       });
   </script>
 </body>
