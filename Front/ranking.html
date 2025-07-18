@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ranking de Ganadores</title>
+  <link rel="stylesheet" href="style7.css">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      background: url('fotos/fondo.jpeg') no-repeat center center;
+      background-size: cover;
+    }
+    .container {
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      font-size: 70px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 5px black;
+    }
+    label {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 3px black;
+    }
+    select {
+      font-size: 24px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      margin-bottom: 30px;
+      min-width: 300px;
+      text-align: center;
+    }
+    option {
+      background: #222;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>RANKING</h1>
+    <label for="tabla-ganadores">GANADORES</label>
+    <div id="tabla-ganadores-centrada">
+      <div id="tabla-ganadores-container">
+        <table id="tabla-ganadores">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <style>
+    #tabla-ganadores-centrada {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+    #tabla-ganadores-container {
+      max-height: 400px;
+      overflow-y: auto;
+      width: 320px;
+      margin-top: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.3);
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    #tabla-ganadores {
+      width: 100%;
+      border-collapse: collapse;
+      color: white;
+    }
+    #tabla-ganadores th, #tabla-ganadores td {
+      padding: 14px 10px;
+      border-bottom: 1px solid #444;
+      text-align: center;
+      font-size: 22px;
+    }
+    #tabla-ganadores th {
+      background: #222;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      font-size: 26px;
+    }
+    #tabla-ganadores tr:hover {
+      background: rgba(255,255,255,0.08);
+    }
+  </style>
+  <script>
+    fetch('http://localhost:4000/Usuarios_partidas')
+      .then(res => res.json())
+      .then(usuarios => {
+        const tbody = document.querySelector('#tabla-ganadores tbody');
+        tbody.innerHTML = '';
+        if (usuarios.length === 0) {
+          tbody.innerHTML = '<tr><td>No hay usuarios aún</td></tr>';
+        } else {
+          usuarios.forEach(user => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${user.nombre}</td>`;
+            tbody.appendChild(tr);
+          });
+        }
+      });
+  </script>
+</body>
+</html>
